@@ -1,0 +1,24 @@
+[Unit]
+Description=gunicorn daemon for Clinical Scheduler
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+Type=notify
+User=clinical_scheduler
+Group=www-data
+RuntimeDirectory=gunicorn
+WorkingDirectory=/var/www/clinical_scheduler
+ExecStart=/var/www/clinical_scheduler/venv/bin/gunicorn \
+          --access-logfile /var/log/clinical_scheduler/access.log \
+          --error-logfile /var/log/clinical_scheduler/error.log \
+          --workers 3 \
+          --worker-class uvicorn.workers.UvicornWorker \
+          --bind unix:/run/gunicorn/socket \
+          config.asgi:application
+ExecReload=/bin/kill -s HUP $MAINPID
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

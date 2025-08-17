@@ -1,0 +1,54 @@
+{% extends 'therapy/base.html' %}
+
+{% block title %}FAQ - An-Ping Hsia MFT{% endblock %}
+
+{% block content %}
+<section class="faq-page">
+    <div class="faq-container">
+        <h1 class="faq-title">FAQ</h1>
+        <p class="faq-subtitle">Frequently Asked Questions About Therapy</p>
+
+        {% for faq in faqs %}
+        <div class="faq-item">
+            <h2 class="faq-question">{{ faq.question }}</h2>
+            <p class="faq-answer">{{ faq.answer }}</p>
+        </div>
+        {% empty %}
+        <div class="faq-item">
+            <h2 class="faq-question">What state do you practice in?</h2>
+            <p class="faq-answer">I am currently licensed to practice in California and only accept patients living in California.</p>
+        </div>
+
+        <div class="faq-item">
+            <h2 class="faq-question">Do you take insurance?</h2>
+            <p class="faq-answer">No, I only accept cash payment.</p>
+        </div>
+
+        <div class="faq-item">
+            <h2 class="faq-question">Do you provide in-person and virtual sessions?</h2>
+            <p class="faq-answer">I find the flexibility of virtual sessions allows more freedom for me to meet my clients where they are. At the moment, I do not offer in-person sessions.</p>
+        </div>
+
+        <div class="faq-item">
+            <h2 class="faq-question">What is your current rate?</h2>
+            <p class="faq-answer">$200 per clinical hour. However, I always discuss with potential clients in the case of special exceptions.</p>
+        </div>
+
+        <div class="faq-item">
+            <h2 class="faq-question">Is it more expensive uninsured?</h2>
+            <p class="faq-answer">As I adhere to the federal regulation 45 CFR 149.610 Requirements for provision of good faith estimates of expected charges for uninsured (or self-pay) individuals, you can rest assured that my rates are set in a way that is reasonable and fair for all parties involved.</p>
+        </div>
+
+        <div class="faq-item">
+            <h2 class="faq-question">How long does therapy take?</h2>
+            <p class="faq-answer">Therapy is an individual, growth-oriented journey which focuses on achieving developmental checkpoints, which we discuss and work towards in our sessions. Whether you feel ready to move on, or if you want to make therapy a regular part of your life, I want to work with you towards reaching those goals.</p>
+        </div>
+        {% endfor %}
+
+        <div class="faq-images">
+            <div class="faq-image">FAQ Image 1</div>
+            <div class="faq-image">FAQ Image 2</div>
+        </div>
+    </div>
+</section>
+{% endblock %}

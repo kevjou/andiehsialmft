@@ -1,0 +1,52 @@
+{% extends 'therapy/base.html' %}
+
+{% block title %}Schedule Appointment - An-Ping Hsia MFT{% endblock %}
+
+{% block content %}
+<section class="scheduling-page">
+    <div class="scheduling-container">
+        <h1 class="scheduling-title">Scheduling</h1>
+        <p class="scheduling-subtitle">Please fill out the form below if you would like to schedule a consultation with me. I will reach out to get your availability.</p>
+        
+        <div class="scheduling-form">
+            <form method="post" action="{% url 'therapy:submit_appointment' %}">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Your first name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="surname">Surname</label>
+                    <input type="text" id="surname" name="surname" placeholder="Your last name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reason">Reason for Consultation</label>
+                    <textarea id="reason" name="reason" placeholder="Please describe what brings you to therapy..." required></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle navbar for scheduling page
+    const navbar = document.getElementById('navbar');
+    if (navbar) {
+        navbar.classList.add('not-sticky');
+    }
+});
+</script>
+{% endblock %}
