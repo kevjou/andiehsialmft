@@ -3,13 +3,14 @@
 # Deployment script
 set -e
 
-APP_DIR="/andiehsialmft/"
+APP_DIR="/var/www/clinical_scheduler"
+DJANGO_DIR="$APP_DIR/andiehsialmft/clinical_scheduler"
 USER="clinical_scheduler"
 
 echo "Starting deployment..."
 
 # Navigate to app directory
-cd $APP_DIR
+cd DJANGO_DIR
 
 # Pull latest code only if this is a git repository
 if [ -d ".git" ]; then
