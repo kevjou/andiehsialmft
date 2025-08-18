@@ -3,7 +3,7 @@
 # Deployment script
 set -e
 
-APP_DIR="/andiehsialmft/clinical_scheduler"
+APP_DIR="/andiehsialmft/"
 USER="clinical_scheduler"
 
 echo "Starting deployment..."
