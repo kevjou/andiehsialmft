@@ -8,35 +8,169 @@
         <h1 class="scheduling-title">Scheduling</h1>
         <p class="scheduling-subtitle">Please fill out the form below if you would like to schedule a consultation with me. I will reach out to get your availability.</p>
         
+        <!-- Privacy Notice -->
+        <div class="privacy-notice">
+            <p><strong>Privacy Notice:</strong> Please do not include sensitive health information in this form. We will discuss confidential matters during our scheduled consultation.</p>
+        </div>
+
+        <!-- Display messages -->
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message message-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         <div class="scheduling-form">
             <form method="post" action="{% url 'therapy:submit_appointment' %}">
                 {% csrf_token %}
-                
+
                 <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" placeholder="Your first name" required>
+                    <label for="name">First Name *</label>
+                    <input type="text" id="name" name="name" placeholder="Your first name" required
+                           value="{{ request.POST.name|default:'' }}">
                 </div>
-                
+
                 <div class="form-group">
-                    <label for="surname">Surname</label>
-                    <input type="text" id="surname" name="surname" placeholder="Your last name" required>
+                    <label for="surname">Last Name *</label>
+                    <input type="text" id="surname" name="surname" placeholder="Your last name" required
+                           value="{{ request.POST.surname|default:'' }}">
                 </div>
-                
+
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" placeholder="your.email@example.com" required
+                           value="{{ request.POST.email|default:'' }}">
                 </div>
-                
+
                 <div class="form-group">
-                    <label for="reason">Reason for Consultation</label>
-                    <textarea id="reason" name="reason" placeholder="Please describe what brings you to therapy..." required></textarea>
+                    <label for="reason">Reason for Consultation *</label>
+                    <textarea id="reason" name="reason"
+                              placeholder="Please provide a brief, general description of what brings you to therapy (avoid specific personal details)..."
+                              required>{{ request.POST.reason|default:'' }}</textarea>
                 </div>
-                
-                <button type="submit" class="submit-btn">Submit</button>
+
+                <!-- Optional: Add preferred contact method -->
+                <div class="form-group">
+                    <label for="preferred_contact">Preferred Contact Method</label>
+                    <select id="preferred_contact" name="preferred_contact">
+                        <option value="email">Email</option>
+                        <option value="phone">Phone</option>
+                    </select>
+                </div>
+
+                <!-- Optional: Add phone field -->
+                <div class="form-group">
+                    <label for="phone">Phone Number (Optional)</label>
+                    <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567"
+                           value="{{ request.POST.phone|default:'' }}">
+                </div>
+
+                <!-- Consent checkbox -->
+                <div class="form-group consent-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="consent" required>
+                        <span class="checkmark"></span>
+                        I understand this is not a secure communication method and I will not include sensitive health information in this form. *
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Request</button>
             </form>
+        </div>
+
+        <!-- Additional contact info -->
+        <div class="contact-info">
+            <h3>Alternative Contact Methods</h3>
+            <p>For urgent matters or if you prefer to speak directly:</p>
+            <p>Phone: <a href="tel:+1234567890">(123) 456-7890</a></p>
+            <p>Email: <a href="mailto:Andie.hsia.lmft@gmail.com">Andie.hsia.lmft@gmail.com</a></p>
         </div>
     </div>
 </section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.privacy-notice {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+    color: #495057;
+}
+
+.messages {
+    margin-bottom: 20px;
+}
+
+.message {
+    padding: 12px 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.message-success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+.message-error {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+.message-warning {
+    background-color: #fff3cd;
+    border: 1px solid #ffeaa7;
+    color: #856404;
+}
+
+.consent-group {
+    margin: 20px 0;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-right: 10px;
+    margin-top: 2px;
+}
+
+.contact-info {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.contact-info h3 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.contact-info a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.contact-info a:hover {
+    text-decoration: underline;
+}
+</style>
 {% endblock %}
 
 {% block extra_js %}
@@ -47,6 +181,24 @@ document.addEventListener('DOMContentLoaded', function() {
     if (navbar) {
         navbar.classList.add('not-sticky');
     }
+
+    // Auto-scroll to messages if they exist
+    const messages = document.querySelector('.messages');
+    if (messages) {
+        messages.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // Form validation
+    const form = document.querySelector('form');
+    const consentCheckbox = document.querySelector('input[name="consent"]');
+
+    form.addEventListener('submit', function(e) {
+        if (!consentCheckbox.checked) {
+            e.preventDefault();
+            alert('Please acknowledge the privacy notice by checking the consent box.');
+            consentCheckbox.focus();
+        }
+    });
 });
 </script>
 {% endblock %}
