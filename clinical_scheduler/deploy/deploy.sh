@@ -3,14 +3,13 @@
 # Deployment script
 set -e
 
-APP_DIR="/var/www/clinical_scheduler"
-DJANGO_DIR="$APP_DIR/andiehsialmft"
+APP_DIR="/var/www/clinical_scheduler/andiehsialmft"
 USER="clinical_scheduler"
 
 echo "Starting deployment..."
 
 # Navigate to app directory
-cd $DJANGO_DIR
+cd $APP_DIR
 
 # Pull latest code only if this is a git repository
 if [ -d ".git" ]; then
@@ -40,8 +39,6 @@ python manage.py migrate --settings=config.settings.production
 # Create superuser if needed (skip if exists)
 echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.filter(username='admin').exists() or User.objects.create_superuser('admin', 'kevjou97@gmail.com', 'anping12')" | python manage.py shell --settings=config.settings.production
 
-# Go back to app directory for service files
-cd $APP_DIR
 
 # Copy service files
 if [ -f "andiehsialmft/clinical_scheduler/deploy/gunicorn.service" ]; then
