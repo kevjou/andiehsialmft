@@ -27,7 +27,7 @@ source venv/bin/activate
 
 # Install/update dependencies
 pip install --upgrade pip
-pip install -r andiehsialmft/clinical_scheduler/requirements/base.txt
+pip install -r andiehsialmft/clinical_scheduler/Requirements/base.txt
 
 # Collect static files
 python manage.py collectstatic --noinput --settings=config.settings.production
