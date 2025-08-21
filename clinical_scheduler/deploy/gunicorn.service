@@ -13,9 +13,8 @@ ExecStart=/var/www/clinical_scheduler/venv/bin/gunicorn \
           --access-logfile /var/log/clinical_scheduler/access.log \
           --error-logfile /var/log/clinical_scheduler/error.log \
           --workers 3 \
-          --worker-class uvicorn.workers.UvicornWorker \
           --bind unix:/run/gunicorn/socket \
-          config.asgi:application
+          config.wsgi:application
 ExecReload=/bin/kill -s HUP $MAINPID
 Restart=on-failure
 RestartSec=5
