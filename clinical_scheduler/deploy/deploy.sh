@@ -3,7 +3,7 @@
 # Deployment script
 set -e
 
-APP_DIR="/var/www/clinical_scheduler"
+APP_DIR="/var/www/clinical_scheduler/andiehsialmft"
 USER="clinical_scheduler"
 
 echo "Starting deployment..."
@@ -27,13 +27,13 @@ source venv/bin/activate
 
 # Install/update dependencies
 pip install --upgrade pip
-pip install -r requirements/production.txt
+pip install -r andiehsialmft/clinical_scheduler/Requirements/base.txt
 
 # Collect static files
-python manage.py collectstatic --noinput --settings=config.settings.production
+python manage.py collectstatic --noinput --settings=clinical_scheduler.config.settings.production
 
 # Run migrations
-python manage.py migrate --settings=config.settings.production
+python manage.py migrate --settings=clinical_scheduler.config.settings.production
 
 # Create superuser if needed (skip if exists)
 echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.filter(username='admin').exists() or User.objects.create_superuser('admin', 'kevjou97@gmail.com', 'anping12')" | python manage.py shell --settings=config.settings.production

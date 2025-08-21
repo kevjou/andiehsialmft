@@ -10,6 +10,7 @@ env = environ.Env(
     DEBUG=(bool, False),
     EMAIL_USE_TLS=(bool, True),
     EMAIL_PORT=(int, 587),
+    SECRET_KEY=(str, config('SECRET_KEY')),
 )
 
 # Read .env file
@@ -78,7 +79,7 @@ ASGI_APPLICATION = 'config.asgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mftwebsite',
+        'NAME': 'clinical_scheduler',
         'USER': 'dev',
         'PASSWORD': 'dankev12',
         'HOST': 'localhost',
@@ -161,3 +162,5 @@ EMAIL_USE_TLS = env('EMAIL_USE_TLS', default=True, cast=bool)
 EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='noreply@andiehsialmft.com')
+
+CONTACT_EMAIL = 'Andie.hsia.lfmt@gmail.com'
