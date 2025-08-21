@@ -35,9 +35,6 @@ python manage.py collectstatic --noinput --settings=clinical_scheduler.config.se
 # Run migrations
 python manage.py migrate --settings=clinical_scheduler.config.settings.production
 
-# Create superuser if needed (skip if exists)
-echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.filter(username='admin').exists() or User.objects.create_superuser('admin', 'kevjou97@gmail.com', 'anping12')" | python manage.py shell --settings=config.settings.production
-
 # Copy service files
 sudo cp deploy/gunicorn.service /etc/systemd/system/
 sudo cp deploy/nginx.conf /etc/nginx/sites-available/clinical_scheduler
